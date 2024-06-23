@@ -1,0 +1,10 @@
+langgraph
+langchain
+python-dotenv
+langchain_community
+langchain_text_splitters
+langchain_qdrant
+tiktoken
+sentence-transformers
+langchain-huggingface
+bs4
