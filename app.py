@@ -1,18 +1,24 @@
+# https://medium.com/@zilliz_learn/local-agentic-rag-with-langgraph-and-llama-3-6c962979821f
+# https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/advanced_rag/langgraph-rag-agent-local.ipynb
+# https://miro.medium.com/v2/resize:fit:1400/format:webp/0*hkUfuS94m73Xm7vu.png
+
+# the same but without a router
+# https://github.com/langchain-ai/langgraph/blob/main/examples/tutorials/rag-agent-testing-local.ipynb
+
 from langchain.globals import set_verbose, set_debug
 
-from graph.agent_generate import generate
-from graph.agent_grade_documents import grade_documents
-from graph.agent_retrieve import retrieve
-from graph.agent_state import AgentState
-from graph.web_search import web_search
+from graph.a_agent_state import AgentState
+from graph.b_route_question import route_question
+from graph.c_agent_retrieve import retrieve
+from graph.d_agent_grade_documents import grade_documents
+from graph.e_decide_to_generate import decide_to_generate
+from graph.fa_agent_generate import generate
+from graph.fb_web_search import web_search
+from graph.g_grade_generation_v_documents_and_question import grade_generation_v_documents_and_question 
+
 from langgraph.graph import END, StateGraph
-from graph.conditional_edge.route_question import route_question
-from graph.conditional_edge.decide_to_generate import decide_to_generate
-from graph.conditional_edge.grade_generation_v_documents_and_question import grade_generation_v_documents_and_question 
 
 from pprint import pprint
-
-from qdrant.qdrant_retriever import QdrantRetriever
 
 set_debug(True)
 set_verbose(True)
@@ -53,10 +59,10 @@ workflow.add_conditional_edges(
 
 app = workflow.compile()
 
-# inputs = {"question": "What are the types of agent memory?"}
-inputs = {"question": "Who are the Bears expected to draft first in the NFL draft?"}
-# inputs = {"question": "Did Emmanuel Macron visit Germany recently?"}
-# inputs = {"question": "Who is President of Poland?"}
+inputs = {"question": "What are the types of agent memory?"} # QDRANT
+# inputs = {"question": "Who are the Bears expected to draft first in the NFL draft?"} # WEB SERACH
+# inputs = {"question": "Did Emmanuel Macron visit Germany recently?"} # WEB SERACH
+# inputs = {"question": "Who is President of Poland?"} # WEB SERACH
 
 for output in app.stream(inputs):
     for key, value in output.items():
